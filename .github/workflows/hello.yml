@@ -1,20 +1,16 @@
-name: Hello Workflow
+name: PR Check
 
 on:
-  push:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
 
 jobs:
-  date:
+  pr-check:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out the code
-        uses: actions/checkout@v5
-
-      - name: Check the date and time
-        run: date
-
-      - name: List files
-        run: ls -la
-
-      - name: Print runner OS
-        run: echo "Malik"
+      - name: Print PR branch name
+        run: 'echo "PR check running for branch: ${{ github.head_ref }}"'
