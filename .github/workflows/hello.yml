@@ -17,4 +17,4 @@ jobs:
         run: ls -la
 
       - name: Print runner OS
-        run: echo "Runner OS: $RUNNER_OS"
+        run: echo "Malik"
