@@ -4,11 +4,21 @@ on:
   push:
 
 jobs:
-  greet:
+  date:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the code
         uses: actions/checkout@v5
 
-      - name: Print greeting
-        run: echo "Hello from GitHub Actions!"
+      - name: check the date and time
+        run: echo date
+      
+      - name: Print brnach name
+        run: echo "Branch: ${{ github.ref_name }}"
+      
+
+      - name: List files
+        run: ls -la
+     
+      - name: Print runner oS
+        run: echo "Runner OS: $RUNNER_OS"
