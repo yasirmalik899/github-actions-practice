@@ -1,45 +1,14 @@
-name: Hello Workflow
+name: Test Workflow
 
 on:
-  push:
   workflow_dispatch:
 
 jobs:
-  ubuntu-job:
-    name: Run on Ubuntu
+  demo:
     runs-on: ubuntu-latest
     steps:
-      - name: Print OS name
-        run: echo "OS Name: $RUNNER_OS"
-
-      - name: Print hostname
-        run: hostname
-
-      - name: Print current user
-        run: whoami
-
-  windows-job:
-    name: Run on Windows
-    runs-on: windows-latest
-    steps:
-      - name: Print OS name
-        shell: pwsh
-        run: echo "OS Name: $env:RUNNER_OS"
-
-      - name: Print hostname
-        shell: pwsh
-        run: hostname
-
-      - name: Print current user
-        shell: pwsh
-        run: whoami
-
-  macos-job:
-    name: Run on macOS
-    runs-on: macos-latest
-    steps:
-      - name: Print OS name
-        run: echo "OS Name: $RUNNER_OS"
+      - name: Print greeting
+        run: echo "Hello"
 
       - name: Print hostname
         run: hostname
