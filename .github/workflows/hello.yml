@@ -1,16 +1,25 @@
-name: Manual Workflow
+name: Matrix Build
 
 on:
+  push:
   workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Enter environment name'
-        required: true
-        default: 'staging'
 
 jobs:
-  manual-job:
-    runs-on: ubuntu-latest
+  python-matrix:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ["3.10", "3.11", "3.12"]
+
     steps:
-      - name: Print environment input
-        run: 'echo "Environment selected: ${{ github.event.inputs.environment }}"'
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Print Python version
+        run: python --version
