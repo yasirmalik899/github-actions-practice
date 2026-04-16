@@ -1,6 +1,7 @@
-name: Task 1 - GitHub Hosted Runners
+name: Hello Workflow
 
 on:
+  push:
   workflow_dispatch:
 
 jobs:
@@ -22,16 +23,16 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Print OS name
-        run: echo "OS Name: $env:RUNNER_OS"
         shell: pwsh
+        run: echo "OS Name: $env:RUNNER_OS"
 
       - name: Print hostname
-        run: hostname
         shell: pwsh
+        run: hostname
 
       - name: Print current user
-        run: whoami
         shell: pwsh
+        run: whoami
 
   macos-job:
     name: Run on macOS
