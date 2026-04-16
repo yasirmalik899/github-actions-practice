@@ -1,17 +1,22 @@
-name: Test Workflow
+name: Task 4 - Use Self Hosted Runner
 
 on:
   workflow_dispatch:
 
 jobs:
-  demo:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Print greeting
-        run: echo "Hello"
+  self-hosted-job:
+    name: Run on My Self Hosted Runner
+    runs-on: self-hosted
 
+    steps:
       - name: Print hostname
         run: hostname
 
-      - name: Print current user
-        run: whoami
+      - name: Print working directory
+        run: pwd
+
+      - name: Create proof file
+        run: echo "Created by GitHub Actions on self-hosted runner" > /home/azureuser/self-hosted-proof.txt
+
+      - name: Verify file exists
+        run: ls -l /home/azureuser/self-hosted-proof.txt
