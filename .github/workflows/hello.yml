@@ -1,22 +1,21 @@
-name: Task 4 - Use Self Hosted Runner
+name: Secret Check
 
 on:
+  push:
   workflow_dispatch:
 
 jobs:
-  self-hosted-job:
-    name: Run on My Self Hosted Runner
-    runs-on: self-hosted
-
+  check-secret:
+    runs-on: ubuntu-latest
     steps:
-      - name: Print hostname
-        run: hostname
+      - name: Check whether secret exists
+        run: |
+          if [ -n "${{ secrets.MY_SECRET_MESSAGE }}" ]; then
+            echo "The secret is set: true"
+          else
+            echo "The secret is set: false"
+          fi
 
-      - name: Print working directory
-        run: pwd
-
-      - name: Create proof file
-        run: echo "Created by GitHub Actions on self-hosted runner" > /home/azureuser/self-hosted-proof.txt
-
-      - name: Verify file exists
-        run: ls -l /home/azureuser/self-hosted-proof.txt
+      - name: Try to print secret directly
+        run: |
+          echo "${{ secrets.MY_SECRET_MESSAGE }}"
