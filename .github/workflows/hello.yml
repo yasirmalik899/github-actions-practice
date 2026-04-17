@@ -5,7 +5,7 @@ on:
 
 jobs:
   generate-file:
-    runs-on: [self-hosted, Linux, X64, Devops]
+    runs-on: self-hosted
     steps:
       - name: Generate a file
         run: |
