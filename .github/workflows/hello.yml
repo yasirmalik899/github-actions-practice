@@ -1,21 +1,36 @@
-name: Secret Check
+name: Docker Secrets via Env
 
 on:
-  push:
   workflow_dispatch:
 
 jobs:
-  check-secret:
+  use-docker-secrets:
     runs-on: ubuntu-latest
     steps:
-      - name: Check whether secret exists
+      - name: Pass secrets as environment variables
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
         run: |
-          if [ -n "${{ secrets.MY_SECRET_MESSAGE }}" ]; then
-            echo "The secret is set: true"
+          echo "Checking whether Docker credentials are available..."
+
+          if [ -n "$DOCKER_USERNAME" ]; then
+            echo "DOCKER_USERNAME is set: true"
           else
-            echo "The secret is set: false"
+            echo "DOCKER_USERNAME is set: false"
           fi
 
-      - name: Try to print secret directly
-        run: |
-          echo "${{ secrets.MY_SECRET_MESSAGE }}"
+          if [ -n "$DOCKER_TOKEN" ]; then
+            echo "DOCKER_TOKEN is set: true"
+          else
+            echo "DOCKER_TOKEN is set: false"
+          fi
+
+          echo "Using Docker username in a shell command safely..."
+          echo "Docker username length check done"
+
+          if [ -n "$DOCKER_USERNAME" ] && [ -n "$DOCKER_TOKEN" ]; then
+            echo "Both Docker secrets are available for future login use"
+          else
+            echo "One or both Docker secrets are missing"
+          fi
