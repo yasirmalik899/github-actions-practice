@@ -1,36 +1,26 @@
-name: Docker Secrets via Env
+name: Artifact Demo
 
 on:
   workflow_dispatch:
+  push:
 
 jobs:
-  use-docker-secrets:
+  create-and-upload-artifact:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Pass secrets as environment variables
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+      - name: Generate a file
         run: |
-          echo "Checking whether Docker credentials are available..."
+          echo "This is a test artifact file" > artifact-demo.txt
+          echo "Created during GitHub Actions workflow" >> artifact-demo.txt
+          echo "Run time: $(date)" >> artifact-demo.txt
 
-          if [ -n "$DOCKER_USERNAME" ]; then
-            echo "DOCKER_USERNAME is set: true"
-          else
-            echo "DOCKER_USERNAME is set: false"
-          fi
+      - name: Display file content
+        run: |
+          cat artifact-demo.txt
 
-          if [ -n "$DOCKER_TOKEN" ]; then
-            echo "DOCKER_TOKEN is set: true"
-          else
-            echo "DOCKER_TOKEN is set: false"
-          fi
-
-          echo "Using Docker username in a shell command safely..."
-          echo "Docker username length check done"
-
-          if [ -n "$DOCKER_USERNAME" ] && [ -n "$DOCKER_TOKEN" ]; then
-            echo "Both Docker secrets are available for future login use"
-          else
-            echo "One or both Docker secrets are missing"
-          fi
+      - name: Upload the artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: demo-artifact
+          path: artifact-demo.txt
