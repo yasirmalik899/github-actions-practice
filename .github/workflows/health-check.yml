@@ -16,16 +16,26 @@ jobs:
       - name: Run container
         run: docker run -d -p 5000:5000 --name capstone-app ${{ secrets.DOCKER_USERNAME }}/myapp:latest
 
+      - name: Show all containers
+        run: docker ps -a
+
+      - name: Show container logs
+        run: docker logs capstone-app || true
+
       - name: Wait for app
-        run: sleep 5
+        run: sleep 15
+
+      - name: Show container logs after wait
+        run: docker logs capstone-app || true
 
       - name: Check health endpoint
-        run: curl -f http://localhost:5000/health
+        run: curl -v -f http://localhost:5000/health
 
       - name: Create summary
+        if: success()
         run: |
           echo "## Health Check Report" >> $GITHUB_STEP_SUMMARY
-          echo "- Image: ${{ secrets.DOCKER_USERNAME }}/github-actions-capstone:latest" >> $GITHUB_STEP_SUMMARY
+          echo "- Image: ${{ secrets.DOCKER_USERNAME }}/myapp:latest" >> $GITHUB_STEP_SUMMARY
           echo "- Status: PASSED" >> $GITHUB_STEP_SUMMARY
           echo "- Time: $(date)" >> $GITHUB_STEP_SUMMARY
 
